@@ -6,8 +6,8 @@ export default function HomePage() {
   return (
     <>
       <section className="hero">
-        <h1>Gear for the long way up.</h1>
-        <p>Packs, shells and shelter built for the backcountry.</p>
+        <h1>Gear for the one that didn’t get away.</h1>
+        <p>Rods, reels, waders and flies for anglers who fish hard.</p>
       </section>
       <section className="grid">
         {products.map((product) => (

@@ -1,6 +1,6 @@
 # Cybersource demo store
 
-A small Next.js storefront for a fictional outdoor gear brand, **Ridgeline Outfitters**, running on the
+A small Next.js storefront for a fictional fly fishing outfitter, **Lunker Outfitters**, running on the
 [Cybersource](https://developer.cybersource.com) (Visa Acceptance Solutions) **sandbox**. It backs a short
 sales-engineering style demo: one Cybersource setup that tackles checkout friction, fraud losses and
 repeat customers re-typing their cards.

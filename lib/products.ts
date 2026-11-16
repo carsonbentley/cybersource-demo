@@ -10,48 +10,48 @@ export type Product = {
   emoji: string;
 };
 
-export const STORE_NAME = "Ridgeline Outfitters";
+export const STORE_NAME = "Lunker Outfitters";
 
 export const products: Product[] = [
   {
-    id: "summit-35-pack",
-    name: "Summit 35L Daypack",
-    tagline: "Light enough for a day, tough enough for a week.",
+    id: "drift-5wt-fly-rod",
+    name: "Drift 9' 5wt Fly Rod",
+    tagline: "The all-around trout rod, from dry flies to nymph rigs.",
     description:
-      "Ripstop nylon pack with a ventilated back panel, hydration sleeve and hip-belt pockets.",
-    priceCents: 14900,
+      "Four-piece medium-fast graphite rod with a cork grip, alignment dots and a cordura travel tube.",
+    priceCents: 32900,
     colors: ["#2f5d50", "#9cc5a1"],
-    emoji: "🎒",
+    emoji: "🎣",
   },
   {
-    id: "alpine-down-jacket",
-    name: "Alpine Down Jacket",
-    tagline: "800-fill warmth that packs into its own pocket.",
+    id: "tailwater-sealed-reel",
+    name: "Tailwater Sealed Drag Reel",
+    tagline: "Smooth drag that stops a run, not your day.",
     description:
-      "Responsibly sourced 800-fill down with a water-resistant shell for cold, dry days on the trail.",
-    priceCents: 22900,
-    colors: ["#b5532c", "#f2c49b"],
-    emoji: "🧥",
-  },
-  {
-    id: "trailhead-2p-tent",
-    name: "Trailhead 2P Tent",
-    tagline: "Two people, one pound per person.",
-    description:
-      "Freestanding three-season tent with two doors, two vestibules and color-coded poles.",
-    priceCents: 38900,
+      "Machined aluminum large-arbor reel with a fully sealed carbon drag, sized for 4–6wt lines.",
+    priceCents: 21900,
     colors: ["#33506e", "#a8c3de"],
-    emoji: "⛺",
+    emoji: "🌀",
   },
   {
-    id: "basecamp-insulated-bottle",
-    name: "Basecamp Insulated Bottle",
-    tagline: "Cold for 24 hours, hot for 12.",
+    id: "riverbend-breathable-waders",
+    name: "Riverbend Breathable Waders",
+    tagline: "Dry legs from first light to the evening hatch.",
     description:
-      "Double-wall stainless steel bottle, 32 oz, with a leakproof cap and a powder-coated finish.",
-    priceCents: 3900,
+      "Four-layer breathable stockingfoot waders with a fleece-lined hand-warmer pocket and gravel guards.",
+    priceCents: 34900,
     colors: ["#6b5b3e", "#e0d2a8"],
-    emoji: "🥤",
+    emoji: "🥾",
+  },
+  {
+    id: "trout-essentials-fly-box",
+    name: "Trout Essentials Fly Box",
+    tagline: "36 proven patterns, ready to fish.",
+    description:
+      "Elk hair caddis, parachute Adams, pheasant tails, hare's ears and woolly buggers in a waterproof box.",
+    priceCents: 4900,
+    colors: ["#b5532c", "#f2c49b"],
+    emoji: "🪰",
   },
 ];
 
