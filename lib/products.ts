@@ -5,7 +5,7 @@ export type Product = {
   description: string;
   /** Price in cents to avoid floating point errors. */
   priceCents: number;
-  /** Two colors used to draw a simple placeholder image. */
+  /** Two colors for the product art backdrop. */
   colors: [string, string];
   emoji: string;
 };
@@ -20,7 +20,7 @@ export const products: Product[] = [
     description:
       "Four-piece medium-fast graphite rod with a cork grip, alignment dots and a cordura travel tube.",
     priceCents: 32900,
-    colors: ["#2f5d50", "#9cc5a1"],
+    colors: ["#3a4a1c", "#7d8a3a"],
     emoji: "🎣",
   },
   {
@@ -30,7 +30,7 @@ export const products: Product[] = [
     description:
       "Machined aluminum large-arbor reel with a fully sealed carbon drag, sized for 4–6wt lines.",
     priceCents: 21900,
-    colors: ["#33506e", "#a8c3de"],
+    colors: ["#4a3416", "#a07a34"],
     emoji: "🌀",
   },
   {
@@ -40,7 +40,7 @@ export const products: Product[] = [
     description:
       "Four-layer breathable stockingfoot waders with a fleece-lined hand-warmer pocket and gravel guards.",
     priceCents: 34900,
-    colors: ["#6b5b3e", "#e0d2a8"],
+    colors: ["#1f3a30", "#5f7f5c"],
     emoji: "🥾",
   },
   {
@@ -50,7 +50,7 @@ export const products: Product[] = [
     description:
       "Elk hair caddis, parachute Adams, pheasant tails, hare's ears and woolly buggers in a waterproof box.",
     priceCents: 4900,
-    colors: ["#b5532c", "#f2c49b"],
+    colors: ["#6b4423", "#c8963a"],
     emoji: "🪰",
   },
 ];

@@ -8,14 +8,14 @@ export function AddToCartButton({ productId }: { productId: string }) {
   const [added, setAdded] = useState(false);
   return (
     <button
-      className="button"
+      className={`button${added ? " is-added" : ""}`}
       onClick={() => {
         add(productId);
         setAdded(true);
         setTimeout(() => setAdded(false), 1200);
       }}
     >
-      {added ? "Added ✓" : "Add to cart"}
+      {added ? "In the creel ✓" : "Add to cart"}
     </button>
   );
 }
