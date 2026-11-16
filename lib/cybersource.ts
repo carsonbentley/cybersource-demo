@@ -85,14 +85,26 @@ export function targetOrigins(): string[] {
 /** Unified Checkout client library version. Required by the capture context API. */
 const UC_CLIENT_VERSION = process.env.UC_CLIENT_VERSION || "0.31";
 
-/** POST /up/v1/capture-contexts: returns the capture context JWT for this order. */
-export async function createCaptureContext(totalCents: number): Promise<string> {
+const DEFAULT_PAYMENT_TYPES = ["PANENTRY", "CLICKTOPAY", "GOOGLEPAY"];
+
+/**
+ * Payment types to offer. Card entry, Click to Pay and Google Pay by default (Apple Pay is skipped
+ * because it needs domain verification). Override with UC_PAYMENT_TYPES, e.g. "PANENTRY".
+ */
+function paymentTypes(): string[] {
+  const fromEnv = (process.env.UC_PAYMENT_TYPES ?? "")
+    .split(",")
+    .map((t) => t.trim().toUpperCase())
+    .filter(Boolean);
+  return fromEnv.length ? fromEnv : DEFAULT_PAYMENT_TYPES;
+}
+
+async function requestCaptureContext(totalCents: number, allowedPaymentTypes: string[]) {
   const request = {
     clientVersion: UC_CLIENT_VERSION,
     targetOrigins: targetOrigins(),
     allowedCardNetworks: ["VISA", "MASTERCARD", "AMEX", "DISCOVER"],
-    // Card entry, Click to Pay and Google Pay. Apple Pay is skipped (needs domain verification).
-    allowedPaymentTypes: ["PANENTRY", "CLICKTOPAY", "GOOGLEPAY"],
+    allowedPaymentTypes,
     country: "US",
     locale: "en_US",
     buttonType: "CHECKOUT",
@@ -111,6 +123,31 @@ export async function createCaptureContext(totalCents: number): Promise<string> 
   const api = new cybersource.UnifiedCheckoutCaptureContextApi(config(), new cybersource.ApiClient());
   const { data } = await call<string>((cb) => api.generateUnifiedCheckoutCaptureContext(request, cb));
   return data;
+}
+
+/**
+ * POST /up/v1/capture-contexts: returns the capture context JWT for this order.
+ *
+ * If Cybersource rejects the request (for example because Click to Pay or Google Pay is not set up
+ * on the account), it retries once with card entry only, so checkout still works.
+ */
+export async function createCaptureContext(
+  totalCents: number,
+): Promise<{ captureContext: string; paymentTypes: string[]; fallbackReason?: unknown }> {
+  const types = paymentTypes();
+  try {
+    return { captureContext: await requestCaptureContext(totalCents, types), paymentTypes: types };
+  } catch (err) {
+    const e = err as CybersourceError;
+    const cardOnly = ["PANENTRY"];
+    if (e.status !== 400 || types.join() === cardOnly.join()) throw err;
+    console.warn("capture context rejected, retrying with card entry only", e.details);
+    return {
+      captureContext: await requestCaptureContext(totalCents, cardOnly),
+      paymentTypes: cardOnly,
+      fallbackReason: e.details,
+    };
+  }
 }
 
 export type PaymentResult = {

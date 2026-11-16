@@ -15,8 +15,8 @@ export async function POST(req: Request) {
   if (!order) return NextResponse.json({ error: "Cart is empty or invalid" }, { status: 400 });
 
   try {
-    const captureContext = await createCaptureContext(order.totalCents);
-    return NextResponse.json({ captureContext, totalCents: order.totalCents });
+    const result = await createCaptureContext(order.totalCents);
+    return NextResponse.json({ ...result, totalCents: order.totalCents });
   } catch (err) {
     const e = err as CybersourceError;
     console.error("capture context failed", e.status, e.details ?? e.message);
