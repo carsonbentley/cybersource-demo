@@ -6,7 +6,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: STORE_NAME,
-  description: "Demo outdoor gear store running on the Cybersource sandbox.",
+  description: "Demo fly fishing outfitter running on the Cybersource sandbox.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

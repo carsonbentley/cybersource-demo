@@ -10,7 +10,7 @@ export function Header() {
     <header className="header">
       <div className="container header-inner">
         <Link href="/" className="brand">
-          ⛰️ {STORE_NAME}
+          🐟 {STORE_NAME}
         </Link>
         <nav>
           <Link href="/cart" className="cart-link">
