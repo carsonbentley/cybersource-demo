@@ -8,6 +8,8 @@ export type CartItem = CartLine & { product: Product; lineTotalCents: number };
 
 type CartContextValue = {
   items: CartItem[];
+  /** False until the cart has been restored from storage after hydration. */
+  loaded: boolean;
   count: number;
   subtotalCents: number;
   add: (productId: string, quantity?: number) => void;
@@ -52,6 +54,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     });
     return {
       items,
+      loaded,
       count: items.reduce((n, i) => n + i.quantity, 0),
       subtotalCents: items.reduce((n, i) => n + i.lineTotalCents, 0),
       add: (productId, quantity = 1) =>
@@ -73,7 +76,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       remove: (productId) => setLines((prev) => prev.filter((l) => l.productId !== productId)),
       clear: () => setLines([]),
     };
-  }, [lines]);
+  }, [lines, loaded]);
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }

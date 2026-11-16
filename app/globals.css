@@ -102,3 +102,17 @@ h2 { font-size: 1.15rem; }
   .checkout { grid-template-columns: 1fr; }
   .hero h1 { font-size: 1.6rem; }
 }
+
+/* Unified Checkout */
+.uc-container { margin: 16px 0; }
+.uc-container:empty { margin: 0; }
+.checkout-error { border: 1px solid #c0392b; border-radius: var(--radius); padding: 16px; margin: 16px 0; background: #fdf1ef; }
+.checkout-error pre { white-space: pre-wrap; word-break: break-word; font-size: 0.8rem; max-height: 240px; overflow: auto; }
+.small { font-size: 0.85rem; }
+
+/* Order confirmation */
+.confirmation { max-width: 640px; }
+.eyebrow { text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.8rem; color: var(--accent); font-weight: 600; margin: 0; }
+.payment-facts { display: grid; grid-template-columns: max-content 1fr; gap: 6px 16px; margin: 16px 0 24px; font-size: 0.95rem; }
+.payment-facts dt { color: var(--muted); }
+.payment-facts dd { margin: 0; word-break: break-all; }
