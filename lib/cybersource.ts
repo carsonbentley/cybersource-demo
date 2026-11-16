@@ -63,16 +63,18 @@ export function toAmount(cents: number): string {
 
 /**
  * Origins the Unified Checkout page may run on. UC refuses to render on an origin that is not in
- * the capture context's targetOrigins, so we list the production domain, localhost and, on Vercel
- * preview deployments, the preview URL.
+ * the capture context's targetOrigins. Cybersource rejects http://localhost URLs as invalid in a
+ * deployed capture context, so localhost is only listed when running outside Vercel. On Vercel we
+ * list the production domain plus this deployment's own URLs (covers preview deployments).
  */
 export function targetOrigins(): string[] {
-  const origins = new Set<string>([
-    "https://cybersource-demo-three.vercel.app",
-    "http://localhost:3000",
-  ]);
-  for (const host of [process.env.VERCEL_URL, process.env.VERCEL_BRANCH_URL]) {
-    if (host) origins.add(`https://${host}`);
+  const origins = new Set<string>(["https://cybersource-demo-three.vercel.app"]);
+  if (process.env.VERCEL) {
+    for (const host of [process.env.VERCEL_URL, process.env.VERCEL_BRANCH_URL]) {
+      if (host) origins.add(`https://${host}`);
+    }
+  } else {
+    origins.add(process.env.UC_LOCAL_ORIGIN || "http://localhost:3000");
   }
   for (const extra of (process.env.UC_EXTRA_ORIGINS ?? "").split(",")) {
     if (extra.trim()) origins.add(extra.trim());
@@ -80,9 +82,13 @@ export function targetOrigins(): string[] {
   return [...origins];
 }
 
+/** Unified Checkout client library version. Required by the capture context API. */
+const UC_CLIENT_VERSION = process.env.UC_CLIENT_VERSION || "0.31";
+
 /** POST /up/v1/capture-contexts: returns the capture context JWT for this order. */
 export async function createCaptureContext(totalCents: number): Promise<string> {
   const request = {
+    clientVersion: UC_CLIENT_VERSION,
     targetOrigins: targetOrigins(),
     allowedCardNetworks: ["VISA", "MASTERCARD", "AMEX", "DISCOVER"],
     // Card entry, Click to Pay and Google Pay. Apple Pay is skipped (needs domain verification).
