@@ -63,6 +63,9 @@ browser                         our server (Next.js API routes)        Cybersour
 - `lib/cybersource.ts` wraps the `cybersource-rest-client` SDK (capture context, authorization).
 - `lib/unified-checkout.ts` loads the UC library from the capture context and returns the transient token.
 - Payments are **authorization only** (`capture: false`); capture, void and refund come with the admin page.
+- Payment types default to card, Click to Pay and Google Pay (`UC_PAYMENT_TYPES` overrides). If
+  Cybersource rejects the capture context (e.g. a wallet isn't set up on the account), the server
+  retries once with card entry only and the page says so.
 - `clientVersion` is `0.31` (override with `UC_CLIENT_VERSION`).
 - `targetOrigins` on Vercel = the production domain plus the deployment's own URL (previews work).
   Locally it adds `http://localhost:3000` (override with `UC_LOCAL_ORIGIN`). Cybersource rejected

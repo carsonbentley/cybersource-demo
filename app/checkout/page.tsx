@@ -9,7 +9,7 @@ import { runUnifiedCheckout } from "@/lib/unified-checkout";
 
 type Phase =
   | { kind: "loading" }
-  | { kind: "ready" }
+  | { kind: "ready"; notice?: string }
   | { kind: "paying" }
   | { kind: "error"; message: string; details?: unknown };
 
@@ -53,7 +53,12 @@ export default function CheckoutPage() {
         paymentSelection: "#buttonPaymentListContainer",
         paymentScreen: "#embeddedPaymentContainer",
       });
-      setPhase({ kind: "ready" });
+      setPhase({
+        kind: "ready",
+        notice: cc.fallbackReason
+          ? "Wallets are unavailable on this sandbox account right now, so only card entry is shown."
+          : undefined,
+      });
       const transientToken = await tokenPromise;
 
       setPhase({ kind: "paying" });
@@ -110,6 +115,7 @@ export default function CheckoutPage() {
       <div className="panel">
         <h1>Checkout</h1>
         {phase.kind === "loading" && <p className="muted">Loading secure checkout…</p>}
+        {phase.kind === "ready" && phase.notice && <p className="muted small">{phase.notice}</p>}
         {phase.kind === "paying" && <p className="muted">Authorizing your payment…</p>}
         {phase.kind === "error" && (
           <div className="checkout-error" role="alert">
