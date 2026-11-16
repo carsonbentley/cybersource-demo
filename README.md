@@ -63,8 +63,11 @@ browser                         our server (Next.js API routes)        Cybersour
 - `lib/cybersource.ts` wraps the `cybersource-rest-client` SDK (capture context, authorization).
 - `lib/unified-checkout.ts` loads the UC library from the capture context and returns the transient token.
 - Payments are **authorization only** (`capture: false`); capture, void and refund come with the admin page.
-- `targetOrigins` covers the production domain, `http://localhost:3000` and the Vercel preview URL.
-  Add more with `UC_EXTRA_ORIGINS` (comma-separated).
+- `clientVersion` is `0.31` (override with `UC_CLIENT_VERSION`).
+- `targetOrigins` on Vercel = the production domain plus the deployment's own URL (previews work).
+  Locally it adds `http://localhost:3000` (override with `UC_LOCAL_ORIGIN`). Cybersource rejected
+  the localhost URL as invalid in a capture context, so if local checkout fails, run behind an HTTPS
+  tunnel (e.g. ngrok) and set `UC_LOCAL_ORIGIN` to it. Add more with `UC_EXTRA_ORIGINS`.
 
 ## Sandbox smoke test
 
